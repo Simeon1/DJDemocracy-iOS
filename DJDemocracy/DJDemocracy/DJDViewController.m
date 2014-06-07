@@ -8,22 +8,37 @@
 
 #import "DJDViewController.h"
 
+
 @interface DJDViewController ()
 
 @end
+
 
 @implementation DJDViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    self.api = [[DJDAPIController alloc] init];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    DJDSong* song = [DJDSong songWithTitle:@"Turn Down for What"
+                                 andArtist:@"DJ Snake & Lil Jon"];
+    
+    while(YES) {
+        [self.api upvote:song];
+    }
+    
+    
 }
+
+
+
 
 @end
