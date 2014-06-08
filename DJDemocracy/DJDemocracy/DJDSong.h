@@ -16,6 +16,8 @@
 @property (nonatomic, copy) NSString* votes;
 
 
++(instancetype)songWithJSON:(NSDictionary*)jsonDictionary;
+
 +(instancetype)songWithTitle:(NSString*)title andArtist:(NSString*)artist;
 
 -(NSDictionary*)jsonValue;

@@ -23,6 +23,10 @@
 		2D57B8A31942D05B001E5F28 /* DJDemocracyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D57B8A21942D05B001E5F28 /* DJDemocracyTests.m */; };
 		2D57B8AF1943635F001E5F28 /* DJDAPIController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D57B8AE1943635F001E5F28 /* DJDAPIController.m */; };
 		2D57B8B319437549001E5F28 /* DJDSong.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D57B8B219437549001E5F28 /* DJDSong.m */; };
+		2D57B8B719439455001E5F28 /* DJDLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D57B8B619439455001E5F28 /* DJDLoginViewController.m */; };
+		2DBEBC851943B540001747B2 /* DJDPlaylist.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBEBC841943B540001747B2 /* DJDPlaylist.m */; };
+		2DBEBC881943ED8D001747B2 /* DJDJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBEBC871943ED8D001747B2 /* DJDJoinViewController.m */; };
+		2DBEBC8B1943FC8F001747B2 /* DJDCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DBEBC8A1943FC8F001747B2 /* DJDCreateViewController.m */; };
 		9AE9E72672E242AC83CFFD54 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B750DB2CB5E446649CF6C63E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +64,14 @@
 		2D57B8AE1943635F001E5F28 /* DJDAPIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDAPIController.m; sourceTree = "<group>"; };
 		2D57B8B119437549001E5F28 /* DJDSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJDSong.h; sourceTree = "<group>"; };
 		2D57B8B219437549001E5F28 /* DJDSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDSong.m; sourceTree = "<group>"; };
+		2D57B8B519439455001E5F28 /* DJDLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJDLoginViewController.h; sourceTree = "<group>"; };
+		2D57B8B619439455001E5F28 /* DJDLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDLoginViewController.m; sourceTree = "<group>"; };
+		2DBEBC831943B540001747B2 /* DJDPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJDPlaylist.h; sourceTree = "<group>"; };
+		2DBEBC841943B540001747B2 /* DJDPlaylist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDPlaylist.m; sourceTree = "<group>"; };
+		2DBEBC861943ED8D001747B2 /* DJDJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJDJoinViewController.h; sourceTree = "<group>"; };
+		2DBEBC871943ED8D001747B2 /* DJDJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDJoinViewController.m; sourceTree = "<group>"; };
+		2DBEBC891943FC8F001747B2 /* DJDCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DJDCreateViewController.h; sourceTree = "<group>"; };
+		2DBEBC8A1943FC8F001747B2 /* DJDCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DJDCreateViewController.m; sourceTree = "<group>"; };
 		3DC609F99B894C459FA4CC04 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B750DB2CB5E446649CF6C63E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -124,7 +136,7 @@
 		2D57B87D1942D05A001E5F28 /* DJDemocracy */ = {
 			isa = PBXGroup;
 			children = (
-				2D57B8B0194366E9001E5F28 /* Images */,
+				2D57B8B419438FFE001E5F28 /* Login */,
 				2D57B8AC1943632E001E5F28 /* API */,
 				2D57B8861942D05A001E5F28 /* DJDAppDelegate.h */,
 				2D57B8871942D05A001E5F28 /* DJDAppDelegate.m */,
@@ -173,15 +185,23 @@
 				2D57B8AE1943635F001E5F28 /* DJDAPIController.m */,
 				2D57B8B119437549001E5F28 /* DJDSong.h */,
 				2D57B8B219437549001E5F28 /* DJDSong.m */,
+				2DBEBC831943B540001747B2 /* DJDPlaylist.h */,
+				2DBEBC841943B540001747B2 /* DJDPlaylist.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
 		};
-		2D57B8B0194366E9001E5F28 /* Images */ = {
+		2D57B8B419438FFE001E5F28 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				2D57B8B519439455001E5F28 /* DJDLoginViewController.h */,
+				2D57B8B619439455001E5F28 /* DJDLoginViewController.m */,
+				2DBEBC861943ED8D001747B2 /* DJDJoinViewController.h */,
+				2DBEBC871943ED8D001747B2 /* DJDJoinViewController.m */,
+				2DBEBC891943FC8F001747B2 /* DJDCreateViewController.h */,
+				2DBEBC8A1943FC8F001747B2 /* DJDCreateViewController.m */,
 			);
-			name = Images;
+			name = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,8 +340,12 @@
 				2D57B8B319437549001E5F28 /* DJDSong.m in Sources */,
 				2D57B8841942D05A001E5F28 /* main.m in Sources */,
 				2D57B8AF1943635F001E5F28 /* DJDAPIController.m in Sources */,
+				2DBEBC881943ED8D001747B2 /* DJDJoinViewController.m in Sources */,
+				2DBEBC8B1943FC8F001747B2 /* DJDCreateViewController.m in Sources */,
+				2D57B8B719439455001E5F28 /* DJDLoginViewController.m in Sources */,
 				2D57B8881942D05A001E5F28 /* DJDAppDelegate.m in Sources */,
 				2D57B88E1942D05A001E5F28 /* DJDViewController.m in Sources */,
+				2DBEBC851943B540001747B2 /* DJDPlaylist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

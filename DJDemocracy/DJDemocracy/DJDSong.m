@@ -11,6 +11,17 @@
 @implementation DJDSong
 
 
++(instancetype)songWithJSON:(NSDictionary*)jsonDictionary {
+    DJDSong* song = [[DJDSong alloc] init];
+    
+    song.title = jsonDictionary[@"title"];
+    song.artist = jsonDictionary[@"artist"];
+    song.votes = jsonDictionary[@"votes"];
+    
+    return song;
+}
+
+
 +(instancetype)songWithTitle:(NSString*)title andArtist:(NSString*)artist {
     DJDSong* song = [[DJDSong alloc] init];
     
@@ -21,8 +32,15 @@
 }
 
 
+-(NSString*)description {
+    return [[self jsonValue] description];
+}
+
+
 -(NSDictionary*)jsonValue {
     return @{ @"title": self.title, @"artist": self.artist };
 }
+
+
 
 @end

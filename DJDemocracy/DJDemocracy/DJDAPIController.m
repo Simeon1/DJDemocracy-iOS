@@ -8,7 +8,7 @@
 
 #import "DJDAPIController.h"
 
-NSString* const apiRoot = @"http://myjam.co:8080";
+NSString* const apiRoot = @"http://172.17.137.184:3000";
 
 @implementation DJDAPIController
 
@@ -19,12 +19,16 @@ NSString* const apiRoot = @"http://myjam.co:8080";
 
 
 
--(void)upvote:(DJDSong*)song {
+-(void)upvoteSong:(DJDSong*)song withPin:(NSString*)pin {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     
-    NSDictionary *params = @{ @"song" : [song jsonValue] };
+    NSDictionary *params = @{
+                             @"pin": pin,
+                             @"song": [song jsonValue]
+                            };
     
     [manager POST:[self api:@"upvote"]
        parameters:params
@@ -35,7 +39,7 @@ NSString* const apiRoot = @"http://myjam.co:8080";
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               
-              NSLog(@"Upvote failed!");
+              NSLog(@"Upvote failed! %@", error.description);
               
           }
      ];
@@ -44,12 +48,16 @@ NSString* const apiRoot = @"http://myjam.co:8080";
 
 
 
--(void)downvote:(DJDSong*)song {
+-(void)downvoteSong:(DJDSong*)song withPin:(NSString*)pin {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     
-    NSDictionary *params = @{ @"song" : song };
+    NSDictionary *params = @{
+                             @"pin": pin,
+                             @"song": [song jsonValue]
+                            };
     
     [manager POST:[self api:@"downvote"]
        parameters:params
@@ -69,19 +77,37 @@ NSString* const apiRoot = @"http://myjam.co:8080";
 
 
 
--(void)playlist:(NSArray*)songs {
+-(void)updatePlaylist:(NSArray*)songs withPin:(NSString*)pin {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
     
-    NSDictionary *params = @{ @"songs" : songs };
+    NSMutableArray *jsonSongs = [NSMutableArray array];
+    for (DJDSong* song in songs) {
+        [jsonSongs addObject:[song jsonValue]];
+    }
     
-    [manager POST:[self api:@"addsongs"]
+    NSDictionary *params = @{
+                             @"pin": pin,
+                             @"songs": jsonSongs
+                            };
+    
+    NSLog(@"Sending songs: %@", jsonSongs);
+    
+    [manager POST:[self api:@"playlist"]
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               
-              NSLog(@"Playlist uploaded!");
+              NSArray *json = (NSArray*)responseObject;
+              NSLog(@"Got playlist: %@", json);
               
+              for (NSDictionary* jsong in json) {
+                  DJDSong *song = [DJDSong songWithJSON:jsong];
+                  [self.playlist addSong:song];
+              }
+              
+              [[NSNotificationCenter defaultCenter] postNotificationName:@"DJDPlaylistUpdatedNotification" object:nil];
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               

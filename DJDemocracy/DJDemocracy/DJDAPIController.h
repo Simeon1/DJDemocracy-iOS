@@ -10,13 +10,16 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AFNetworking/AFNetworking.h>
 #import "DJDSong.h"
+#import "DJDPlaylist.h"
 
 extern NSString* const apiRoot;
 
 @interface DJDAPIController : NSObject
 
--(void)upvote:(DJDSong*)track;
--(void)downvote:(DJDSong*)track;
--(void)playlist:(NSArray*)songs;
+@property (nonatomic, weak) DJDPlaylist* playlist;
+
+-(void)upvoteSong:(DJDSong*)song withPin:(NSString*)pin;
+-(void)downvoteSong:(DJDSong*)song withPin:(NSString*)pin;
+-(void)updatePlaylist:(NSArray*)songs withPin:(NSString*)pin;
 
 @end

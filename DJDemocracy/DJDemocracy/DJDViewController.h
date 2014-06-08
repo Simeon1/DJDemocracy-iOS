@@ -16,5 +16,10 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) DJDAPIController* api;
+@property (strong, nonatomic) DJDPlaylist *playlist;
+
+@property (copy, nonatomic) NSString* pin;
+
+
 
 @end
