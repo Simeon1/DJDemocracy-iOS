@@ -8,7 +8,7 @@
 
 #import "DJDAPIController.h"
 
-NSString* const apiRoot = @"http://172.17.137.184:3000";
+NSString* const apiRoot = @"http://beta.myjam.co:3000";
 
 @implementation DJDAPIController
 
@@ -68,7 +68,7 @@ NSString* const apiRoot = @"http://172.17.137.184:3000";
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               
-              NSLog(@"Downvote failed!");
+              NSLog(@"Downvote failed: %@", [error description]);
               
           }
      ];

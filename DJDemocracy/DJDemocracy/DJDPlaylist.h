@@ -15,4 +15,6 @@
 
 -(DJDSong*)getSong:(NSInteger)index;
 
+-(void)clearPlaylist;
+
 @end

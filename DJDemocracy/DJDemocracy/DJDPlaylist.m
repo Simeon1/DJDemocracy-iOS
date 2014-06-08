@@ -7,7 +7,7 @@
 //
 
 #import "DJDPlaylist.h"
-
+#import "DJDSongTableViewCell.h"
 
 @interface DJDPlaylist ()
 
@@ -38,6 +38,18 @@
 }
 
 
+-(void)clearPlaylist {
+    [self.songs removeAllObjects];
+}
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if ([self.songs count]) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.songs count];
@@ -46,11 +58,15 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaylistCell" forIndexPath:indexPath];
+    DJDSongTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PlaylistCell" forIndexPath:indexPath];
     
     DJDSong* song = self.songs[indexPath.row];
-    cell.textLabel.text = song.title;
-    cell.detailTextLabel.text = song.artist;
+    cell.title.text = song.title;
+    cell.artist.text = song.artist;
+    
+    cell.votes.text = @"12";
+    
+    
     
     return cell;
 }

@@ -65,9 +65,9 @@
 
 
 - (IBAction)handleButtonBegin:(UIStoryboardSegue *)sender {
-    
+    NSLog(@"Button begin");
     [[NSUserDefaults standardUserDefaults] setValue:@"1234" forKey:@"partyPin"];
-    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

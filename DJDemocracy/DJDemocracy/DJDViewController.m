@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *logoImage;
 
+@property (nonatomic, assign) BOOL canVoteUp;
+@property (nonatomic, assign) BOOL canVoteDown;
 
 
 @property (nonatomic, strong) NSArray* topSongs;
@@ -36,11 +38,14 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshUI)
+                                             selector:@selector(refreshPlaylist)
                                                  name:@"DJDPlaylistUpdatedNotification"
                                                object:nil];
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshNowPlaying)
+                                                 name:@"DJDPlaylistUpdatedNotification"
+                                               object:nil];
 }
 
 
@@ -62,9 +67,11 @@
     });
     
     
-    
+    self.canVoteUp = YES;
+    self.canVoteDown = YES;
     
     if (!self.pin) {
+        NSLog(@"No pin?");
         [self performSegueWithIdentifier:@"LoginSegue" sender:self];
     } else {
         NSLog(@"Logging in..");
@@ -78,6 +85,7 @@
 }
 
 -(IBAction)handleButtonBegin:(id)sender {
+    NSLog(@"Getting pin");
     self.pin = [[NSUserDefaults standardUserDefaults] valueForKey:@"partyPin"];
 }
 
@@ -95,14 +103,18 @@
 
 
 
--(void)refreshUI {
+-(void)refreshPlaylist {
     [self.tableView reloadData];
 }
 
+-(void)refreshNowPlaying {
+    
+}
 
 -(NSArray*)queryTopSongs {
     NSMutableArray *songs = [NSMutableArray array];
     
+    /*
     NSTimeInterval start  = [[NSDate date] timeIntervalSince1970];
     
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
@@ -139,16 +151,121 @@
         DJDSong *song = [DJDSong songWithTitle:title andArtist:artist];
         NSLog(@"%@", song);
         [songs addObject:song];
-    }
+    }*/
+    
+    
+    DJDSong *turnDown = [DJDSong songWithTitle:@"Turn Down for What" andArtist:@"DJ Snake & Lil Jon"];
+    [songs addObject:turnDown];
+    
+    DJDSong *dirtVide = [DJDSong songWithTitle:@"Dirty Vibe" andArtist:@"Skrillex"];
+    [songs addObject:dirtVide];
+    
+    DJDSong *pompeii = [DJDSong songWithTitle:@"Pompeii" andArtist:@"Bastille"];
+    [songs addObject:pompeii];
+
     
     return [NSArray arrayWithArray:songs];
 }
 
 
+- (IBAction)upvote:(UIButton *)sender {
+    if (!self.canVoteUp) return;
+    self.canVoteUp = NO;
+    
+    UITableViewCell* cell = (UITableViewCell*)[[[sender superview] superview] superview];
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    
+    
+    DJDSong* song = [self.playlist getSong:indexPath.row];
+    
+    [self.api upvoteSong:song withPin:self.pin];
+
+    cell.backgroundColor = [self colorFromRed:105 green:206 blue:87];
+}
+
+
+- (IBAction)downvote:(UIButton *)sender {
+    if (!self.canVoteDown) return;
+    self.canVoteDown = NO;
+    
+    
+    UITableViewCell* cell = (UITableViewCell*)[[[sender superview] superview] superview];
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    
+    
+    DJDSong* song = [self.playlist getSong:indexPath.row];
+    
+    [self.api downvoteSong:song withPin:self.pin];
+    
+    cell.backgroundColor = [self colorFromRed:208 green:103 blue:93];
+}
 
 
 
+- (IBAction)handleShareButton:(UIButton *)sender {
+    NSString* message = @"I just created a playlist, come jam with me!";
+    
+    NSURL *url = [NSURL URLWithString:@"http://myjam.co"];
+    
+    NSMutableArray *share = [NSMutableArray arrayWithObjects:message, url, nil];
+    
+    NSArray *activitiesToHide = @[
+                                  UIActivityTypePostToWeibo,
+                                  UIActivityTypePrint,
+                                  UIActivityTypeCopyToPasteboard,
+                                  UIActivityTypeAssignToContact,
+                                  UIActivityTypeSaveToCameraRoll,
+                                  UIActivityTypeAddToReadingList,
+                                  UIActivityTypePostToFlickr,
+                                  UIActivityTypePostToVimeo,
+                                  UIActivityTypePostToTencentWeibo,
+                                  UIActivityTypeAirDrop
+                                  ];
+    
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:share applicationActivities:nil];
+    
+    activityVC.excludedActivityTypes = activitiesToHide;
+    
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
+    
+}
 
+
+- (IBAction)handleLogoutButton:(UIButton *)sender {
+    NSLog(@"Logging out");
+    self.pin = nil;
+    self.topSongs = nil;
+
+    [self clearVoteSelections];
+
+    [self.playlist clearPlaylist];
+    [self.tableView reloadData];
+}
+
+
+-(void)clearVoteSelections {
+    for (int section = 0; section < [self.tableView numberOfSections]; section++) {
+        for (int row = 0; row < [self.tableView numberOfRowsInSection:section]; row++) {
+            NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+            UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:cellPath];
+            NSLog(@"test");
+            cell.backgroundColor = [UIColor whiteColor];
+        }
+    }
+    
+    //[self.tableView reloadData];
+}
+
+
+-(UIColor*)colorFromRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue {
+    CGFloat r = red / 255.0f;
+    CGFloat g = green / 255.0f;
+    CGFloat b = blue / 255.0f;
+    
+    return [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+}
 
 
 @end
